@@ -2,7 +2,7 @@ version_h = vcs_tag(
     command: ['git',
         '--git-dir=' + join_paths(source_root, '.git'),
         '--work-tree=' + source_root,
-        'describe', '--always', '--tags', '--dirty'],
+        'describe', '--always', '--tags', '--dirty', '--abbrev=0'],
     input: 'version.h.in',
     output: 'version.h',
     replace_string: '@VERSION@',
