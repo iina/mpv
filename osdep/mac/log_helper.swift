@@ -20,7 +20,10 @@ import os
 
 class LogHelper {
     var log: OpaquePointer?
+#if HAVE_MACOS_11_FEATURES
+    @available(macOS 11.0, *)
     let logger = Logger(subsystem: "io.mpv", category: "mpv")
+#endif
 
     let loggerMapping: [Int:OSLogType] = [
         MSGL_V: .debug,
@@ -51,7 +54,11 @@ class LogHelper {
 
     func send(message: String, type: Int) {
         guard let log = log else {
+#if HAVE_MACOS_11_FEATURES
+        if #available(macOS 11.0, *) {
             logger.log(level: loggerMapping[type] ?? .default, "\(message, privacy: .public)")
+        }
+#endif
             return
         }
 

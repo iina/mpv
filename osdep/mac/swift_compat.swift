@@ -15,6 +15,15 @@
  * License along with mpv.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#if !swift(>=5.7)
+extension NSCondition {
+    func withLock<R>(_ body: () throws -> R) rethrows -> R {
+        self.lock()
+        defer { self.unlock() }
+        return try body()
+    }
+}
+#endif
 
 #if !swift(>=5.0)
 extension Data {
